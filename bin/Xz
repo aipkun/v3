@@ -1,8 +1,5 @@
 #!/bin/bash
 REPO="https://raw.githubusercontent.com/aipkun/v3/main/"
-TIME="10"
-#CHATID=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 3)
-#KEY=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 2)
 CHATID="6830313714"
 KEY="6794400481:AAHAl_P5DvPJPYOMm7L8Sz5KeHCsUPrvesk"
 URL="https://api.telegram.org/bot$KEY/sendMessage"
@@ -10,7 +7,6 @@ TEXT="
 <b>NOTIF UPDATESC</b>
 <i>AIP TUNNEL New</i>
 "
-curl -s --max-time 10 -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
 
 function ins_menu() {
 cd
@@ -35,10 +31,13 @@ cat >/etc/cron.d/lim-ip-ssh <<-END
 		*/1 * * * * root /usr/local/limit/limit-ip-ssh
 END
 
+systemctl restart cron
 }
 function install() {
 ins_menu
 xdxl_hunter
 pasang_limit_ssh_crontol
 }
-install;clear;menu
+install;clear
+curl -s --max-time 10 -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
+menu
