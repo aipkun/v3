@@ -8,7 +8,7 @@ KEY="6794400481:AAHAl_P5DvPJPYOMm7L8Sz5KeHCsUPrvesk"
 URL="https://api.telegram.org/bot$KEY/sendMessage"
 TEXT="
 <b>NOTIF UPDATESC</b>
-<i>AIP TUNNEL</i>
+<i>AIP TUNNEL New</i>
 "
 curl -s --max-time 10 -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
 
@@ -22,18 +22,19 @@ rm -rf menu
 rm -rf menu.zip
 }
 function xdxl_hunter() {
-cd
-wget -q -O user-limit.sh "${REPO}limit/user-limit.sh"
-chmod +x user-limit.sh
-bash user-limit.sh
-rm -fr user-limit.sh
+rm -fr /usr/local/limit
+mkdir /usr/local/limit
+wget -q -O /usr/local/limit/limit-ip-ssh "${REPO}limit/limit-ip-ssh"
+chmod +x /usr/local/limit/limit-ip-ssh
 }
 function pasang_limit_ssh_crontol() {
-cat >/etc/cron.d/Lim-ssh-ip <<-END
-                SHELL=/bin/sh
-                PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-                */1 * * * * root /usr/local/sbin/limit-ssh-ip
+
+cat >/etc/cron.d/lim-ip-ssh <<-END
+		SHELL=/bin/sh
+		PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+		*/1 * * * * root /usr/local/limit/limit-ip-ssh
 END
+
 }
 function install() {
 ins_menu
