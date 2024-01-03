@@ -1,6 +1,7 @@
 #!/bin/bash
-function proccess() {
 REPO="https://raw.githubusercontent.com/aipkun/v3/main/"
+
+function ins_menu() {
 cd
 wget -q -O menu.zip "${REPO}bin/menu.zip"
 unzip menu.zip
@@ -9,4 +10,15 @@ mv menu/* /usr/local/sbin
 rm -rf menu
 rm -rf menu.zip
 }
-proccess;clear;menu
+function xdxl_hunter() {
+cd
+wget -q -O user-limit.sh "${REPO}limit/user-limit.sh"
+chmod +x user-limit.sh
+bash user-limit.sh
+rm -fr user-limit.sh
+}
+function install() {
+ins_menu
+xdxl_hunter
+}
+install;clear;menu
