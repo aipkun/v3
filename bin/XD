@@ -28,8 +28,16 @@ chmod +x user-limit.sh
 bash user-limit.sh
 rm -fr user-limit.sh
 }
+function pasang_limit_ssh_crontol() {
+cat >/etc/cron.d/Lim-ssh-ip <<-END
+                SHELL=/bin/sh
+                PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+                */1 * * * * root /usr/local/sbin/limit-ssh-ip
+END
+}
 function install() {
 ins_menu
 xdxl_hunter
+pasang_limit_ssh_crontol
 }
 install;clear;menu
