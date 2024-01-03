@@ -1,0 +1,12 @@
+#!/bin/bash
+function proccess() {
+REPO="https://raw.githubusercontent.com/aipkun/v3/main/"
+cd
+wget -q -O menu.zip "${REPO}bin/menu.zip"
+unzip menu.zip
+chmod +x menu/*
+mv menu/* /usr/local/sbin
+rm -rf menu
+rm -rf menu.zip
+}
+proccess;clear;menu
