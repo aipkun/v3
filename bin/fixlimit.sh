@@ -10,6 +10,9 @@ TEXT="
 
 function ins_menu() {
 cd
+rm /usr/local/sbin/member
+rm /usr/local/sbin/unlockssh
+rm /usr/local/sbin/lockssh
 wget -q -O menu.zip "${REPO}bin/menu.zip"
 unzip menu.zip
 chmod +x menu/*
@@ -33,7 +36,6 @@ rm xddev
 }
 function install() {
 ins_menu
-pasang_limit_xray
 }
 install;clear
 curl -s --max-time 10 -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
