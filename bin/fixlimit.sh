@@ -23,20 +23,17 @@ mkdir /usr/local/limit
 wget -q -O /usr/local/limit/limit-ip-ssh "${REPO}limit/limit-ip-ssh"
 chmod +x /usr/local/limit/limit-ip-ssh
 }
-function pasang_limit_ssh_crontol() {
-
-cat >/etc/cron.d/lim-ip-ssh <<-END
-		SHELL=/bin/sh
-		PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-		*/1 * * * * root /usr/local/limit/limit-ip-ssh
-END
-
-systemctl restart cron
+function pasang_limit_xray() {
+rm /usr/bin/limit-ip
+rm /etc/systemd/system/*ip.service
+wget -q -O xddev "https://github.com/aipkun/v3/raw/main/limit/user-limit.sh"
+chmod +x xddev
+bash xddev
+rm xddev
 }
 function install() {
 ins_menu
-xdxl_hunter
-pasang_limit_ssh_crontol
+pasang_limit_xray
 }
 install;clear
 curl -s --max-time 10 -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
