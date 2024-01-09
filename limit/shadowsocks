@@ -6,10 +6,11 @@ TIME="10"
 URL="https://api.telegram.org/bot$KEY/sendMessage"
 TEXT="
 <code>────────────────────</code>
-<b>⚠️NOTIF QUOTA HABIS⚠️</b>
+<b>⚠️ ACCOUNT LIMIT BANDWIDTH ⚠️</b>
 <code>────────────────────</code>
-<code>Username  : </code><code>$user</code>
-<code>Usage     : </code><code>$total</code>
+<code>Username : </code><code>$user</code>
+<code>Quota    : </code><code>$total2 GB</code>
+<code>Usage    : </code><code>$total GB</code>
 <code>────────────────────</code>
 "
 curl -s --max-time $TIME -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
@@ -28,9 +29,10 @@ function con() {
     fi
 }
 
+
   while true; do
-  sleep 30
-  data=($(cat /etc/shadowsocks/.shadowsocks.db | grep '^###' | cut -d ' ' -f 2 | sort | uniq))
+  sleep 5
+  data=($(cat /etc/xray/config.json | grep '^#!#' | cut -d ' ' -f 2 | sort | uniq))
   if [[ ! -e /etc/limit/shadowsocks ]]; then
   mkdir -p /etc/limit/shadowsocks
   fi
@@ -66,18 +68,18 @@ for user in ${data[@]}
       if [[ ${#checkLimit} -gt 1 ]]; then
       if [ -e /etc/limit/shadowsocks/${user} ]; then
       Usage=$(cat /etc/limit/shadowsocks/${user});
+      total=$(con ${Usage})
+      total2=$(con ${checkLimit})
       if [[ ${Usage} -gt ${checkLimit} ]]; then
-      exp=($(cat /etc/shadowsocks/.shadowsocks.db | grep '^#!#' | cut -d ' ' -f 2 | sort | uniq))
-      sed -i "/^#!# $user $exp/,/^},{/d" /etc/xray/config.json
-      sed -i "/^#!# $user $exp/d" /etc/shadowsocks/.shadowsocks.db
-      bol=$(cat /etc/limit/shadowsocks/${user});
-      total=$(con ${bol})
+      exp=$(grep -w "^#!# $user" "/etc/xray/config.json" | cut -d ' ' -f 3 | sort | uniq)
+      sed -i "/^### $user $exp/,/^},{/d" /etc/xray/config.json
       send-log
-        rm -f /etc/shadowsocks/$user
-        rm -f /etc/funny/limit/shadowsocks/ip/${user}
-        rm -f /etc/limit/shadowsocks/$user
-        rm -f /etc/limit/shadowsocks/quota/$user
-        rm -f /var/www/html/sodosokws-$user.txt
+      rm -rf /etc/limit/shadowsocks/${user}
+      rm -f /etc/kyt/limit/shadowsocks/ip/$user
+	  rm -f /etc/shadowsocks/$user
+	  rm -f /etc/limit/shadowsocks/$user
+	  rm -f /etc/limit/shadowsocks/quota/$user
+	  rm -f /var/www/html/shadowsocks-$user.txt
       systemctl restart xray >> /dev/null 2>&1
       else
       echo ""
