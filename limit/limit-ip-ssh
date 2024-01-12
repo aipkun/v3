@@ -1,5 +1,6 @@
 #!/bin/bash
 function send_log(){
+TIME="5"
 CHATID="1716088354"
 KEY="5960047548:AAFco2FpcRVBBsDbmwVBxJ4o96jxL9KLHP0"
 URL="https://api.telegram.org/bot$KEY/sendMessage"
@@ -13,7 +14,7 @@ TEXT="
 <code>Locked   : 15 Minutes</code>
 <code>────────────────────</code>
 "
-curl -s --max-time 10 -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
+curl -s --max-time $TIME -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
 }
 mulog=$(fvssh)
 data=( `ls /etc/kyt/limit/ssh/ip`);
