@@ -25,3 +25,15 @@ EOF
 systemctl daemon-reload
 systemctl restart sship
 systemctl enable sship
+
+echo "Memulai Pasang Cron Limit Ssh 1 Minutes"
+sleep 2
+
+cat >/etc/cron.d/limssh <<-END
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+*/59 * * * * root /usr/bin/limit-ip-ssh
+END
+
+clear
+echo "Done"
